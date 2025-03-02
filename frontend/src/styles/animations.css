@@ -1,0 +1,20 @@
+@keyframes glow-green {
+    0% { box-shadow: 0 0 5px #22c55e; }
+    50% { box-shadow: 0 0 20px #22c55e; }
+    100% { box-shadow: 0 0 5px #22c55e; }
+  }
+  
+  @keyframes glow-red {
+    0% { box-shadow: 0 0 5px #ef4444; }
+    50% { box-shadow: 0 0 20px #ef4444; }
+    100% { box-shadow: 0 0 5px #ef4444; }
+  }
+  
+  .animate-glow-green {
+    animation: glow-green 1s infinite alternate;
+  }
+  
+  .animate-glow-red {
+    animation: glow-red 1s infinite alternate;
+  }
+  

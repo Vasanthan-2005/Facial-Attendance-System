@@ -1,0 +1,10 @@
+flask
+flask-cors
+python-dotenv
+opencv-python
+numpy
+pillow
+face-recognition
+requests
+gunicorn
+dlib-bin
