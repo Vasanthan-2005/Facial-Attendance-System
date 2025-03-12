@@ -1,6 +1,6 @@
 🎯 Facial Recognition-Based Attendance System
 
-🚀 An AI-powered smart attendance system that eliminates manual attendance marking using facial recognition technology. Ensures accuracy, security, and automation with real-time monitoring and location validation!
+🚀 A smart attendance system that eliminates manual attendance marking using facial recognition technology. Ensures accuracy, security, and automation with real-time monitoring and location validation!
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
