@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Import navigate
+import { useNavigate } from "react-router-dom";
 
 const apiUrl1 = import.meta.env.VITE_PORT5;
 const apiUrl2 = import.meta.env.VITE_PORT8;
@@ -12,19 +12,16 @@ const ViewStudents = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const token = localStorage.getItem("token"); // Retrieve token from localStorage
+        const token = localStorage.getItem("token");
         if (!token) {
           alert("Unauthorized! Please log in.");
-          navigate("/adminLogin"); // Redirect to login page
+          navigate("/adminLogin");
           return;
         }
 
-        const response = await axios.get(
-          `${apiUrl1}/api/admin/students`,
-          {
-            headers: { Authorization: `Bearer ${token}` }, // Fixed template literal
-          }
-        );
+        const response = await axios.get(`${apiUrl1}/api/admin/students`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
         setStudents(response.data);
       } catch (error) {
@@ -32,7 +29,7 @@ const ViewStudents = () => {
 
         if (error.response && error.response.status === 401) {
           alert("Session expired. Please log in again.");
-          navigate("/adminLogin"); // Redirect to login page
+          navigate("/adminLogin");
         } else {
           alert("Failed to fetch students.");
         }
@@ -40,50 +37,42 @@ const ViewStudents = () => {
     };
 
     fetchStudents();
-  }, [navigate]); // Added navigate to dependency array
+  }, [navigate]);
 
   return (
-    <div className="h-150 flex flex-col">
-      <h2 className="text-3xl font-semibold">Student List</h2>
+    <div className="container mx-auto p-6 text-white min-h-screen">
+      <h2 className="text-3xl font-bold text-center mb-6">STUDENT LIST</h2>
       {students.length === 0 ? (
-        <p className="text-4xl text-gray-400 mt-20">No students found.</p>
-      ):(
-      <div className="flex-1 overflow-auto border border-gray-700 mt-4 h-[80vh]">
-        <table className="w-full h-full border-collapse">
-          <thead className="sticky top-0 bg-blue-700 text-white">
-            <tr>
-              <th className="border p-3">ID</th>
-              <th className="border p-3">Name</th>
-              <th className="border p-3">Image</th>
-            </tr>
-          </thead>
-          <tbody className="h-full">
-            {students.map((student) => (
-              <tr
-                key={student.student_id}
-                className="text-center align-middle hover:bg-gray-700"
-              >
-                <td className="border p-3">{student.student_id}</td>
-                <td className="border p-3">{student.name}</td>
-                <td className="border p-3">
-                  <div className="flex justify-center items-center p-1 rounded-lg">
-                    <img
-                      src={`${apiUrl2}/photos/uploads/${student.student_id}.jpg`} // Fixed backticks
-                      alt="Student"
-                      className="w-80 h-60 rounded-lg shadow-md"
-                      onError={(e) =>
-                        (e.target.src = "${apiUrl2}/uploads/notfound.jpg")
-                      }
-                    />
-                  </div>
-                </td>
+        <p className="text-xl text-gray-400 text-center">No students found.</p>
+      ) : (
+        <div className="overflow-x-auto shadow-lg rounded-lg border border-gray-700">
+          <table className="min-w-full bg-gray-800 text-white border border-gray-600">
+            <thead className="bg-gray-700 text-white">
+              <tr>
+                <th className="py-3 px-6 text-center border border-gray-500">ID</th>
+                <th className="py-3 px-6 text-center border border-gray-500">Name</th>
+                <th className="py-3 px-6 text-center border border-gray-500">Image</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      ) }
-      
+            </thead>
+            <tbody>
+              {students.map((student, index) => (
+                <tr key={student.student_id} className="border-b border-gray-500 hover:bg-gray-700">
+                  <td className="py-4 px-6 text-center border border-gray-500">{student.student_id}</td>
+                  <td className="py-4 px-6 text-center border border-gray-500">{student.name}</td>
+                  <td className="py-4 px-6 flex justify-center border border-gray-500">
+                    <img
+                      src={`${apiUrl2}/photos/uploads/${student.student_id}.jpg`}
+                      alt="Student"
+                      className="w-60 h-60 object-cover rounded-lg shadow-md border border-gray-400"
+                      onError={(e) => (e.target.src = `${apiUrl2}/uploads/notfound.jpg`)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };

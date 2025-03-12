@@ -5,7 +5,7 @@ from photos import photos_bp
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})  # Allow React frontend
+CORS(app, resources={r"/*": {"origins": "http://localhost:3001"}})  # Allow React frontend
 
 # Register blueprints
 app.register_blueprint(register_bp, url_prefix='/register')

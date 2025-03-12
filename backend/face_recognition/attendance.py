@@ -12,7 +12,7 @@ from PIL import Image
 from dotenv import load_dotenv
 
 attendance_bp = Blueprint("attendance", __name__)
-CORS(attendance_bp, resources={r"/*": {"origins": "http://localhost:3000"}})
+CORS(attendance_bp, resources={r"/*": {"origins": "http://localhost:3001"}})
 
 load_dotenv()
 

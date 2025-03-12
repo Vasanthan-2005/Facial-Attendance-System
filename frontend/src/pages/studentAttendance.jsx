@@ -71,7 +71,8 @@ const AttendancePage = () => {
           // Convert meters to km for comparison
           setIsWithinRange(true);
           toast.success(`You are within range (Distance: ${distance} km).`, {
-            autoClose: 3000,style:{minWidth:"380px"}
+            autoClose: 3000,
+            style: { minWidth: "380px" },
           });
         } else {
           setIsWithinRange(false);
@@ -120,6 +121,7 @@ const AttendancePage = () => {
     if (webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot();
       if (imageSrc) {
+        console.log(imageSrc);
         setCapturedImage(imageSrc);
         sendImageToBackend(imageSrc);
       } else {
@@ -152,9 +154,11 @@ const AttendancePage = () => {
         }
 
         if (data.success) {
+          speakText(`${data.message}`);
           toast.success(`${data.message}`, { autoClose: 4000 });
           setBorderClass("border-green-500 animate-glow-green");
         } else {
+          speakText(`${data.message}`);
           toast.error(`${data.message}`, {
             autoClose: 4000, // Keep the same duration
             style: { minWidth: "335px" }, // Increases the width of the toast box
@@ -165,11 +169,42 @@ const AttendancePage = () => {
         setTimeout(resetPage, 4400);
       })
       .catch(() => {
+        speakText("Server error, try again.");
         toast.error("Server error, try again.", { autoClose: 5000 });
         setBorderClass("border-red-500 animate-glow-red");
       })
       .finally(() => setIsProcessing(false));
   };
+
+  const speakText = (text) => {
+    if (!("speechSynthesis" in window)) {
+        console.error("Speech synthesis is not supported in this browser.");
+        return;
+    }
+
+    const synth = window.speechSynthesis;
+    let voices = synth.getVoices();
+
+    if (voices.length === 0) {
+        synth.onvoiceschanged = () => {
+            voices = synth.getVoices();
+            speakNow(text, voices);
+        };
+    } else {
+        speakNow(text, voices);
+    }
+};
+
+const speakNow = (text, voices) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.voice = voices.find(v => v.name === "Microsoft David - English (United States)") || null;
+    utterance.rate = 1;  
+    utterance.pitch = 3; 
+
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+};
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 to-black text-white p-6">

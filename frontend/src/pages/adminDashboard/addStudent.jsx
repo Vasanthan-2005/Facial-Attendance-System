@@ -43,7 +43,7 @@ const StudentRegistration = () => {
     if (
       field === "email" &&
       value &&
-      !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value)
+      !/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(value)
     ) {
       tempErrors.email = "Invalid email format";
     } else {
